@@ -54,7 +54,7 @@ class ListsFragment : Fragment() {
         }
         fetchdata(context)
 
-        return mBinding.getRoot()
+        return mBinding.root
     }
 
     // get data from web service
@@ -115,7 +115,7 @@ class ListsFragment : Fragment() {
         }
     }
 
-    private fun removeNullItem(rows: MutableList<Fact>): MutableList<Fact> {
+    fun removeNullItem(rows: MutableList<Fact>): MutableList<Fact> {
         val mutableList = rows.toMutableList()
         for (iCount in rows.indices) {
             // remove item from list when  title, description and imageHrel are null

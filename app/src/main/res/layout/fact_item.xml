@@ -1,54 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_8dp"
-    card_view:cardCornerRadius="@dimen/margin_8dp"
-    tools:ignore="MissingConstraints">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+        <variable
+            name="fact"
+            type="com.pritam.listapp.retrofit.model.Fact" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="@dimen/margin_8dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8dp"
+        card_view:cardCornerRadius="@dimen/margin_8dp"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_8dp">
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_8dp">
 
-            <TextView
-                android:id="@+id/tv_title"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8dp"
-                android:layout_marginBottom="@dimen/margin_8dp"
-                android:text=""
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/title_text_size"
-                android:textStyle="bold" />
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/margin_8dp">
 
-            <TextView
-                android:id="@+id/tv_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/description_text_size" />
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:layout_marginBottom="@dimen/margin_8dp"
+                    android:text="@{fact.title}"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/title_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{fact.description}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/description_text_size" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/img_fact"
+                android:layout_width="@dimen/image_width"
+                android:layout_height="@dimen/image_width"
+                android:layout_marginStart="@dimen/margin_8dp"
+                android:layout_marginLeft="@dimen/margin_8dp"
+                android:adjustViewBounds="true"
+                android:imageHref="@{fact.imageHref}"
+                android:contentDescription="Image Loading"
+                android:scaleType="fitXY" />
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/img_fact"
-            android:layout_width="@dimen/image_width"
-            android:layout_height="@dimen/image_width"
-            android:layout_marginStart="@dimen/margin_8dp"
-            android:layout_marginLeft="@dimen/margin_8dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"/>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">List App</string>
+
+    <string name="action_exit">Exit</string>
+
+    <string name="network_error">Network is not Available</string>
+    <string name="error">Something went wrong!</string>
+    <string name="noFound">Nothing Found</string>
 </resources>

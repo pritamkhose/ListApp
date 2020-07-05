@@ -33,7 +33,7 @@ jobs:
 
     # Build Debug APK
     - name: Build APK
-      run: ./gradlew assembleDebug --stacktrace
+      run: bash ./gradlew assembleDebug --stacktrace
       
     # Upload APK under artifact
     - name: Upload APK

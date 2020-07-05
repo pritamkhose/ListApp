@@ -7,6 +7,8 @@ class Constants {
         const val BASE_URL: String = "https://dl.dropboxusercontent.com"
         const val FACT_URL: String = "/s/2iodh4vg0eortkl/facts.json"
         const val APP_TAG: String = "ListApp"
-        const val CONNECTION_TIMEOUT: Long = 30
+        const val CONNECTION_TIMEOUT: Long = 30 // second
+        const val APP_SHARED_PREFS: String = "app_shared_prefs"
+        const val PREFS_TITLE = "prefs_title"
     }
 }

@@ -19,8 +19,10 @@ downloaded from [here](https://developer.android.com/studio/).
 
 Libraries Used
 --------------
-* [Retrofit](https://square.github.io/retrofit/) to consume JSON data via HTTP REST client
-* [Picasso](https://square.github.io/picasso/) for lazy image loading
+* [Android Kotlin](https://developer.android.com/kotlin) - Write more concise, idiomatic Kotlin code.
+* [Retrofit](https://square.github.io/retrofit/) - to consume JSON data via HTTP REST client
+* [Picasso](https://square.github.io/picasso/) - for lazy image loading
+* [Room](https://developer.android.com/training/data-storage/room) - Database library over SQLite
 
 Screenshots
 -----------

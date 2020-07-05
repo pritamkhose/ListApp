@@ -14,17 +14,15 @@ import org.junit.Before
  */
 class ExampleUnitTest {
 
-    var listsFragment = ListsFragment()
-    var fact : Fact = Fact("Beavers", "Beavers are second", "http://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/American_Beaver.jpg/220px-American_Beaver.jpg")
-    var factNull : Fact = Fact(null, null, null)
-    var factImgNull : Fact = Fact("Eh",  "A chiefly Canadian", null)
-    var aList = mutableListOf<Fact>()
+    private var listsFragment = ListsFragment()
+    private var fact : Fact = Fact(1, "Beavers", "Beavers are second", "http://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/American_Beaver.jpg/220px-American_Beaver.jpg")
+    private var factNull : Fact = Fact(2, null, null, null)
+    private var factImgNull : Fact = Fact(3, "Eh",  "A chiefly Canadian", null)
+    private var aList = mutableListOf<Fact>()
 
     @Before
     fun setUp() {
         aList.add(fact)
-        aList.add(factNull)
-        aList.add(factImgNull)
     }
 
     @Test
@@ -40,12 +38,22 @@ class ExampleUnitTest {
     @Test
     fun removeNullItem_Test() {
         System.out.println(aList.size.toString() + " --> "+ aList.toString())
-        assertEquals((listsFragment.removeNullItem(aList)).size, 2)
-        aList.removeAt(0)
-        System.out.println(aList.size.toString() + " --> "+ aList.toString())
         assertEquals((listsFragment.removeNullItem(aList)).size, 1)
-        aList.removeAt(1)
+    }
+
+    @Test
+    fun removeNullItem_Test_factNull() {
+        aList.clear()
+        aList.add(factNull)
         System.out.println(aList.size.toString() + " --> "+ aList.toString())
         assertEquals((listsFragment.removeNullItem(aList)).size, 0)
+    }
+
+    @Test
+    fun removeNullItem_Test_factImgNull() {
+        aList.clear()
+        aList.add(factImgNull)
+        System.out.println(aList.size.toString() + " --> "+ aList.toString())
+        assertEquals((listsFragment.removeNullItem(aList)).size, 1)
     }
 }

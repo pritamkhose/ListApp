@@ -35,7 +35,7 @@ class ListsFragment : Fragment() {
 
         // Recycler Adapter
         factAdapter = FactAdapter(factList)
-        mBinding?.recyclerView?.adapter = factAdapter
+        mBinding.recyclerView.adapter = factAdapter
 
         //Bind the recyclerview and Add a LayoutManager
         mBinding.recyclerView.layoutManager =
@@ -73,10 +73,8 @@ class ListsFragment : Fragment() {
                     //get title & rows from factResponse
                     val title = fact.title
                     activity?.title = title
-                    mBinding?.recyclerView?.setItemViewCacheSize(fact.rows.size)
-
                     val mutableList = removeNullItem(fact.rows)
-
+                    mBinding.recyclerView.setItemViewCacheSize(mutableList.size)
                     // clear list, add new items in list and refresh it using notifyDataSetChanged
                     factList.clear()
                     factList.addAll(mutableList)
@@ -88,7 +86,7 @@ class ListsFragment : Fragment() {
     fun removeNullItem(rows: MutableList<Fact>): MutableList<Fact> {
         val mutableList = rows.toMutableList()
         for (iCount in rows.indices) {
-            // remove item from list when  title, description and imageHrel are null
+            // remove item from list when  title, description and imageHref are null
             if (rows[iCount].imageHref.isNullOrEmpty() && rows[iCount].title.isNullOrEmpty() && rows[iCount].description.isNullOrEmpty()) {
                 mutableList.removeAt(iCount)
             }

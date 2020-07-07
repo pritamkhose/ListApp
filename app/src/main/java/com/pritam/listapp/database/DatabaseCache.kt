@@ -25,4 +25,9 @@ class DatabaseCache(appDatabase: AppDatabase) {
         factDao.deleteAllFacts()
     }
 
+    // get title from database
+    fun getTitle(): String {
+        return factDao.getTitle(Constants.APP_TITLE_ID)[0].title.toString()
+    }
+
 }

@@ -12,7 +12,7 @@ import org.junit.Before
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
+class ListsFragmentUnitTest {
 
     private var listsFragment = ListsFragment()
     private var fact : Fact = Fact(1, "Beavers", "Beavers are second", "http://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/American_Beaver.jpg/220px-American_Beaver.jpg")
@@ -37,7 +37,7 @@ class ExampleUnitTest {
 
     @Test
     fun removeNullItem_Test() {
-        System.out.println(aList.size.toString() + " --> "+ aList.toString())
+        println(aList.size.toString() + " --> "+ aList.toString())
         assertEquals((listsFragment.removeNullItem(aList)).size, 1)
     }
 
@@ -45,7 +45,7 @@ class ExampleUnitTest {
     fun removeNullItem_Test_factNull() {
         aList.clear()
         aList.add(factNull)
-        System.out.println(aList.size.toString() + " --> "+ aList.toString())
+        println(aList.size.toString() + " --> "+ aList.toString())
         assertEquals((listsFragment.removeNullItem(aList)).size, 0)
     }
 
@@ -53,7 +53,7 @@ class ExampleUnitTest {
     fun removeNullItem_Test_factImgNull() {
         aList.clear()
         aList.add(factImgNull)
-        System.out.println(aList.size.toString() + " --> "+ aList.toString())
+        println(aList.size.toString() + " --> "+ aList.toString())
         assertEquals((listsFragment.removeNullItem(aList)).size, 1)
     }
 }

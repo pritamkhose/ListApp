@@ -8,7 +8,7 @@ import com.pritam.listapp.R
 import com.pritam.listapp.databinding.FactItemBinding
 import com.pritam.listapp.retrofit.model.Fact
 
-class FactAdapter(val FactList: MutableList<Fact>) : RecyclerView.Adapter<FactAdapter.FactViewHolder>() {
+class FactAdapter(private val FactList: MutableList<Fact>) : RecyclerView.Adapter<FactAdapter.FactViewHolder>() {
 
     //this method is returning the view or data binding for each item in the list
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FactViewHolder {

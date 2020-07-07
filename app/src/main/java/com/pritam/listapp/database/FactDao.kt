@@ -20,4 +20,8 @@ interface FactDao {
     //delete all facts from database
     @Query("DELETE FROM fact")
     fun deleteAllFacts()
+
+    // get all facts from database
+    @Query("SELECT * FROM fact WHERE description  LIKE '%' || :search || '%'")
+    fun getTitle(search: String?): MutableList<Fact>
 }

@@ -3,8 +3,10 @@
 
     <string name="action_exit">Exit</string>
 
-    <string name="network_error">Network is not Available</string>
+    <string name="cache_data">Cache data</string>
+    <string name="network_error">No network available</string>
     <string name="error">Something went wrong!</string>
-    <string name="noFound">Nothing Found</string>
+    <string name="noFound">No Data Found</string>
     <string name="loading">Loading</string>
+    <string name="success">Data updated over network</string>
 </resources>

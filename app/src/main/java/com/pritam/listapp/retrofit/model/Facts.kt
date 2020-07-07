@@ -5,8 +5,10 @@ import androidx.room.PrimaryKey
 
 // Fact Data Class
 data class Facts(
-    var title: String,
-    var rows : MutableList<Fact>
+    var title: String?,
+    var rows: MutableList<Fact>?,
+    // extra parameter taken for error handling
+    var error: String
 )
 
 // Fact Data Class

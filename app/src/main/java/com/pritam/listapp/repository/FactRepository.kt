@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.pritam.listapp.R
 import com.pritam.listapp.database.DatabaseCache
 import com.pritam.listapp.retrofit.model.Fact
 import com.pritam.listapp.retrofit.model.Facts
@@ -13,6 +14,7 @@ import com.pritam.listapp.utils.Constants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 open class FactRepository {
 
@@ -44,9 +46,12 @@ open class FactRepository {
             } else {
                 // data is present in db but network is not present so will data from db
                 Log.d(Constants.APP_TAG, "get data response from database: $data")
-                data.value = Facts(databaseCache.getTitle(), removeTitleFromList(databaseCache.getAllFacts()))
+                data.value = Facts(
+                    databaseCache.getTitle(),
+                    removeTitleFromList(databaseCache.getAllFacts()),
+                    context.resources.getString(R.string.network_error)
+                )
             }
-
         }
         return data
     }
@@ -60,20 +65,29 @@ open class FactRepository {
         ApiClient.instance.getFactLists().enqueue(object : Callback<Facts> {
             override fun onResponse(call: Call<Facts>, response: Response<Facts>) {
                 Log.d(Constants.APP_TAG, "data response from server: " + response.body().toString())
-                data.value = response.body()
+                try {
+                    if (response.body()?.rows?.size!! > 0) {
+                        data.value = response.body()
 
-                // delete all facts from database and insert updated one
-                databaseCache.deleteAllFacts()
-                val rows = response.body()?.rows?.toMutableList()!!
-                // add Toolbar Title in Fact table
-                rows.add(Fact(0, response.body()?.title, Constants.APP_TITLE_ID, null))
-                Log.d(Constants.APP_TAG, rows.toString())
-                databaseCache.insert(rows)
+                        // delete all facts from database and insert updated one
+                        databaseCache.deleteAllFacts()
+                        val rows = response.body()?.rows?.toMutableList()!!
+                        // add Toolbar Title in Fact table
+                        rows.add(Fact(0, response.body()?.title, Constants.APP_TITLE_ID, null))
+                        Log.d(Constants.APP_TAG, rows.toString())
+                        databaseCache.insert(rows)
+                    } else {
+                        data.value =
+                            Facts(null, null, context.resources.getString(R.string.noFound))
+                    }
+                } catch (e: Exception) {
+                    data.value = Facts(null, null, context.resources.getString(R.string.error))
+                }
             }
 
             override fun onFailure(call: Call<Facts>, t: Throwable) {
                 Log.d(Constants.APP_TAG, "Error While response : " + t.printStackTrace())
-                data.value = null
+                data.value = Facts(null, null, context.resources.getString(R.string.network_error))
             }
         })
 

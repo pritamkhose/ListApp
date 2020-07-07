@@ -25,7 +25,7 @@
             android:padding="@dimen/margin_8dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
@@ -59,7 +59,7 @@
                 android:layout_marginLeft="@dimen/margin_8dp"
                 android:adjustViewBounds="true"
                 android:imageHref="@{fact.imageHref}"
-                android:contentDescription="Image Loading"
+                android:contentDescription="@string/loading"
                 android:scaleType="fitXY" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

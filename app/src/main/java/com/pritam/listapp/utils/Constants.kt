@@ -8,7 +8,6 @@ class Constants {
         const val FACT_URL: String = "/s/2iodh4vg0eortkl/facts.json"
         const val APP_TAG: String = "ListApp"
         const val CONNECTION_TIMEOUT: Long = 30 // second
-        const val APP_SHARED_PREFS: String = "app_shared_prefs"
-        const val PREFS_TITLE = "prefs_title"
+        const val APP_TITLE_ID: String = "#@TitleID@#"
     }
 }

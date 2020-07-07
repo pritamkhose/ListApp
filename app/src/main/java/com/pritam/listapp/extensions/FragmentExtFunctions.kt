@@ -17,9 +17,3 @@ inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
     fragmentTransaction.commit()
 }
 
-inline fun Fragment.replaceFragment(fragment: Fragment, frameId: Int) {
-    fragmentManager!!.inTransaction {
-        replace(frameId, fragment, fragment.javaClass.simpleName)
-        addToBackStack(null)
-    }
-}

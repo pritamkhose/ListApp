@@ -94,7 +94,7 @@ open class FactRepository {
         return data.value
     }
 
-    private fun removeTitleFromList(rows: MutableList<Fact>): MutableList<Fact> {
+    fun removeTitleFromList(rows: MutableList<Fact>): MutableList<Fact> {
         val mutableList = rows.toMutableList()
         for (iCount in rows.indices) {
             // remove item which has fact description APP_TITLE_ID

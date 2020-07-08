@@ -2,25 +2,18 @@ package com.pritam.listapp.ui.activity
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.NoMatchingViewException
-import androidx.test.espresso.ViewAssertion
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.pritam.listapp.R
-import com.pritam.listapp.ui.activity.RecyclerViewItemCountAssertion.Companion.withItemCount
-import com.pritam.listapp.ui.activity.TestUtiliy.*
-import org.hamcrest.CoreMatchers
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
-import org.hamcrest.core.IsInstanceOf
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,34 +22,9 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
 
-    private val waitTimeout: Long = 10 * 1000 // seconds
-
     @Rule
     @JvmField
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
-
-    @Before
-    fun setUp() {
-        onView(isRoot()).perform(waitId(R.id.tv_title, waitTimeout))
-    }
-
-    @Test
-    fun mainActivityTest() {
-        val textView = onView(
-            allOf(
-                withId(R.id.tv_title), withText("Beavers"),
-                childAtPosition(
-                    childAtPosition(
-                        IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java),
-                        0
-                    ),
-                    0
-                ),
-                isDisplayed()
-            )
-        )
-        textView.check(matches(withText("Beavers")))
-    }
 
     @Test
     fun mainActivityTitleTest() {
@@ -80,8 +48,51 @@ class MainActivityTest {
     }
 
     @Test
-    fun recyclerViewItemCountTest() {
-        onView(withId(R.id.recyclerView)).check(withItemCount(13))
+    fun mainActivityExitTest() {
+        val imageView = onView(
+            allOf(
+                withContentDescription("More options"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.action_bar),
+                        1
+                    ),
+                    0
+                ),
+                isDisplayed()
+            )
+        )
+        imageView.check(matches(isDisplayed()))
+
+        val overflowMenuButton = onView(
+            allOf(
+                withContentDescription("More options"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.action_bar),
+                        1
+                    ),
+                    0
+                ),
+                isDisplayed()
+            )
+        )
+        overflowMenuButton.perform(ViewActions.click())
+
+        val appCompatTextView = onView(
+            allOf(
+                withId(R.id.title), withText("Exit"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.content),
+                        0
+                    ),
+                    0
+                ),
+                isDisplayed()
+            )
+        )
+        appCompatTextView.perform(ViewActions.click())
     }
 
     private fun childAtPosition(
@@ -103,26 +114,3 @@ class MainActivityTest {
     }
 }
 
-// https://stackoverflow.com/questions/36399787/how-to-count-recyclerview-items-with-espresso
-class RecyclerViewItemCountAssertion private constructor(private val matcher: Matcher<Int>) :
-    ViewAssertion {
-    override fun check(view: View, noViewFoundException: NoMatchingViewException?) {
-        if (noViewFoundException != null) {
-            throw noViewFoundException
-        }
-        val recyclerView = view as RecyclerView
-        val adapter = recyclerView.adapter
-        assertThat(adapter!!.itemCount, matcher)
-    }
-
-    companion object {
-
-        fun withItemCount(expectedCount: Int): RecyclerViewItemCountAssertion {
-            return withItemCount(CoreMatchers.`is`(expectedCount))
-        }
-
-        fun withItemCount(matcher: Matcher<Int>): RecyclerViewItemCountAssertion {
-            return RecyclerViewItemCountAssertion(matcher)
-        }
-    }
-}

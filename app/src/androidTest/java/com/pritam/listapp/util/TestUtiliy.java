@@ -1,4 +1,4 @@
-package com.pritam.listapp.ui.activity;
+package com.pritam.listapp.util;
 
 import android.view.View;
 

@@ -1,4 +1,4 @@
-# ListApp - Android Native
+# ListApp - Android Native app
 This is android example with Kotlin, Data Binding, Retrofit using Rest API web services 
 
 Introduction

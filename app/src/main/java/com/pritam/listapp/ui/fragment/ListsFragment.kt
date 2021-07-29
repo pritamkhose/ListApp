@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -26,16 +25,10 @@ class ListsFragment : Fragment() {
     private var factList = mutableListOf<Fact>()
     private lateinit var viewModel: FactListViewModel
 
-    private lateinit var networkError : String
-    private lateinit var error: String
-    private lateinit var success: String
-    private lateinit var noFound : String
-    private lateinit var cacheData: String
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Define the binding
         mBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_lists, container, false)
@@ -55,47 +48,46 @@ class ListsFragment : Fragment() {
             R.color.red
         )
         mBinding.swipeRefreshLayout.setOnRefreshListener {
-            observeViewModel(viewModel)
+            observeViewModel()
         }
 
-        networkError = activity!!.resources.getString(R.string.network_error)
-        noFound = activity!!.resources.getString(R.string.noFound)
-        error = activity!!.resources.getString(R.string.error)
-        success = activity!!.resources.getString(R.string.success)
-        cacheData = activity!!.resources.getString(R.string.cache_data)
+        viewModel = ViewModelProvider(this).get(FactListViewModel::class.java)
+        observeViewModel()
 
         return mBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(FactListViewModel::class.java)
-        observeViewModel(viewModel)
-    }
-
     // get data from web service and update UI
-    private fun observeViewModel(viewModel: FactListViewModel) {
+    private fun observeViewModel() {
         // Shows swipe to refresh icon animation
         mBinding.swipeRefreshLayout.isRefreshing = true
         // Update the list when the data changes
-        viewModel.getFactListObservable(activity!!, Injector.provideCache(activity!!))
-            .observe(viewLifecycleOwner, Observer<Facts> { fact ->
+        viewModel.getFactListObservable(requireActivity(), Injector.provideCache(requireActivity()))
+            .observe(viewLifecycleOwner, { fact ->
                 if (fact != null) {
                     // Hide swipe to refresh icon animation
                     mBinding.swipeRefreshLayout.isRefreshing = false
                     //get title & rows from factResponse
-                    val errortxt = fact.error
-                    if (errortxt == noFound || errortxt == error) {
-                        errorMsg(errortxt)
-                    } else if (errortxt == networkError) {
-                        if(fact.title.isNullOrEmpty()) {
-                            errorMsg("$noFound, $errortxt")
+                    val errorText = fact.error
+                    if (errorText == resources.getString(R.string.noFound) || errorText == resources.getString(
+                            R.string.error
+                        )
+                    ) {
+                        errorMsg(errorText)
+                    } else if (errorText == resources.getString(R.string.network_error)) {
+                        if (fact.title.isNullOrEmpty()) {
+                            errorMsg("${resources.getString(R.string.noFound)}, $errorText")
                         } else {
-                            errorMsg("$cacheData, $errortxt")
+                            errorMsg("${resources.getString(R.string.cache_data)}, $errorText")
                             updateUIData(fact)
                         }
                     } else {
-                        sucesssMsg()
+                        // show success message - Data fetch successfully!
+                        Snackbar.make(
+                            mBinding.root,
+                            resources.getString(R.string.success),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                         updateUIData(fact)
                     }
                 }
@@ -119,20 +111,18 @@ class ListsFragment : Fragment() {
         // show error message
         Snackbar.make(mBinding.root, title, Snackbar.LENGTH_LONG)
             .setAction("Retry") {
-                observeViewModel(viewModel)
+                observeViewModel()
             }.show()
-    }
-
-    private fun sucesssMsg() {
-        // show success message - Data fetch successfully!
-        Snackbar.make(mBinding.root, success, Snackbar.LENGTH_SHORT).show()
     }
 
     fun removeNullItem(rows: MutableList<Fact>): MutableList<Fact> {
         val mutableList = rows.toMutableList()
         for (iCount in rows.indices) {
             // remove item from list when  title, description and imageHref are null
-            if (rows[iCount].imageHref.isNullOrEmpty() && rows[iCount].title.isNullOrEmpty() && rows[iCount].description.isNullOrEmpty()) {
+            if (rows[iCount].imageHref.isNullOrEmpty()
+                && rows[iCount].title.isNullOrEmpty()
+                && rows[iCount].description.isNullOrEmpty()
+            ) {
                 mutableList.removeAt(iCount)
             }
         }
